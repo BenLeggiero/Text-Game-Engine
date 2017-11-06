@@ -8,7 +8,7 @@ package org.bh.tools.textGame
  * @author Ben Leggiero
  * @since 2017-06-14
  */
-interface Interactable<out Result> {
+interface Interactable<InteractionBaseType : Interaction> {
     /**
      * Lists interactions for this [Interactable], filtered appropriately
      *
@@ -16,7 +16,7 @@ interface Interactable<out Result> {
      *
      * @return All interactions appropriate for the given filter
      */
-    fun interactions(filter: InteractionFilter): List<Interaction>
+    fun interactions(filter: InteractionFilter): List<InteractionBaseType>
 
 
     /**
@@ -26,7 +26,9 @@ interface Interactable<out Result> {
      *
      * @return The result of the interaction
      */
-    fun attemptInteraction(interaction: Interaction): Result
+    fun <I, Result> attemptInteraction(interaction: I): Result
+            where I : InteractionBaseType,
+                  Result : InteractionResult<I>
 }
 
 
@@ -48,12 +50,12 @@ enum class InteractionFilter {
     currentlyAvailable,
 
     /**
-     * All interactions that are currently visibly presented to the user. All of these should appear in
-     * [currentlyAvailable], but not all of those should appear in this.
+     * All interactions that are currently visibly presented to the player's (or any other) character. All of these
+     * should appear in [currentlyAvailable], but not all of those need appear in this.
      *
      * These should be sorted in the way you intend them to be presented to the user.
      */
-    userVisible
+    visibleToCharacter
 }
 
 
@@ -97,18 +99,21 @@ sealed class InteractionTrigger {
 }
 
 
+interface InteractionResult<InitialInteraction : Interaction>
+
+
 
 /**
  * Alias for an [Interactable] that's used as a character
  */
-typealias Character<T> = Interactable<T>
+typealias Character<InteractionResult> = Interactable<InteractionResult>
 
 /**
  * Alias for an [Interactable] that's used as a non-playable character
  */
-typealias NPC<T> = Interactable<T>
+typealias NPC<InteractionResult> = Interactable<InteractionResult>
 
 /**
  * Alias for an [Interactable] that's used as a game object
  */
-typealias Object<T> = Interactable<T>
+typealias GameObject<InteractionResult> = Interactable<InteractionResult>
