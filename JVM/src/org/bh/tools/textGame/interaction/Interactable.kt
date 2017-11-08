@@ -1,6 +1,7 @@
 @file:Suppress("unused")
 
-package org.bh.tools.textGame
+package org.bh.tools.textGame.interaction
+
 
 /**
  * Something with which you can interact in a text game
@@ -8,7 +9,9 @@ package org.bh.tools.textGame
  * @author Ben Leggiero
  * @since 2017-06-14
  */
-interface Interactable<InteractionBaseType : Interaction> {
+interface Interactable<InteractionBaseType : Interaction>
+    : TextOutput
+{
     /**
      * Lists interactions for this [Interactable], filtered appropriately
      *
@@ -26,9 +29,7 @@ interface Interactable<InteractionBaseType : Interaction> {
      *
      * @return The result of the interaction
      */
-    fun <I, Result> attemptInteraction(interaction: I): Result
-            where I : InteractionBaseType,
-                  Result : InteractionResult<I>
+    fun attemptInteraction(interaction: InteractionBaseType): InteractionResult<InteractionBaseType>
 }
 
 
@@ -99,21 +100,23 @@ sealed class InteractionTrigger {
 }
 
 
-interface InteractionResult<InitialInteraction : Interaction>
+interface InteractionResult<InitialInteraction : Interaction> : TextOutput
 
 
 
 /**
- * Alias for an [Interactable] that's used as a character
+ * An [Interactable] that's used as a character
  */
-typealias Character<InteractionResult> = Interactable<InteractionResult>
+interface Character<I : Interaction> : Interactable<I> {
+    val name: String?
+}
 
 /**
- * Alias for an [Interactable] that's used as a non-playable character
+ * An [Interactable] that's used as a non-playable character
  */
-typealias NPC<InteractionResult> = Interactable<InteractionResult>
+interface NPC<I : Interaction> : Character<I>
 
 /**
- * Alias for an [Interactable] that's used as a game object
+ * An [Interactable] that's used as a game object
  */
-typealias GameObject<InteractionResult> = Interactable<InteractionResult>
+interface GameObject<I : Interaction> : Interactable<I>

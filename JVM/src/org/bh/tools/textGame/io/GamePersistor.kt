@@ -26,6 +26,6 @@ open class GamePersistor<StateType, StateChangeType>
     }
 
     private fun loadState() : StateType {
-        // TODO: Load state from disc
+        TODO("Load state from disc")
     }
 }

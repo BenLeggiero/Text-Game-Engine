@@ -13,7 +13,7 @@ abstract class TextGame<GameStateType, GameStateChangeType>
 
     (
             newGameState: GameStateType,
-            gamePersistor: GamePersistor? = null
+            gamePersistor: GamePersistor<GameStateType, GameStateChangeType>? = null
     )
 
     where GameStateType: ChangeableGameState<GameStateType, GameStateChangeType>,
