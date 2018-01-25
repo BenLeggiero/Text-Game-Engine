@@ -1,4 +1,4 @@
-package org.bh.tools.textGame
+package org.bh.tools.textGame.basics
 
 import org.bh.tools.base.state.ChangeableState
 import org.bh.tools.base.state.State

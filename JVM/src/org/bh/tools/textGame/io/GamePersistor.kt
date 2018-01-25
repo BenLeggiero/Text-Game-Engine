@@ -2,8 +2,8 @@ package org.bh.tools.textGame.io
 
 import org.bh.tools.base.state.BasicStateStore
 import org.bh.tools.base.state.ResettableStateStore
-import org.bh.tools.textGame.GameStateChange
-import org.bh.tools.textGame.ChangeableGameState
+import org.bh.tools.textGame.basics.GameStateChange
+import org.bh.tools.textGame.basics.ChangeableGameState
 import java.io.File
 
 open class GamePersistor<StateType, StateChangeType>
