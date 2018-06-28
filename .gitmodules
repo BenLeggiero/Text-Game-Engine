@@ -1,6 +1,3 @@
-[submodule "lib/Blue-Base"]
-	path = lib/Blue-Base
-	url = https://github.com/BlueHuskyStudios/Blue-Base.git
 [submodule "lib/Husky-IO"]
 	path = lib/Husky-IO
 	url = https://github.com/BlueHuskyStudios/Husky-IO.git
