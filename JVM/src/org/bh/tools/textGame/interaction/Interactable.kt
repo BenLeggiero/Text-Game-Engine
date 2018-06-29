@@ -10,7 +10,7 @@ package org.bh.tools.textGame.interaction
  * @since 2017-06-14
  */
 interface Interactable<InteractionBaseType : Interaction>
-    : TextOutput
+    : TextDescribable
 {
     /**
      * Lists interactions for this [Interactable], filtered appropriately
@@ -79,7 +79,7 @@ sealed class InteractionTrigger {
      * Signifies that any arbitrary string could trigger this interaction.
      * This is useful for "you can't use that here" responses.
      */
-    class arbitraryString: InteractionTrigger()
+    object arbitraryString : InteractionTrigger()
 
     /**
      * Signifies that a string matching a particular regex is required to trigger this interaction.
@@ -100,7 +100,8 @@ sealed class InteractionTrigger {
 }
 
 
-interface InteractionResult<InitialInteraction : Interaction> : TextOutput
+
+interface InteractionResult<InitialInteraction : Interaction> : TextDescribable
 
 
 
@@ -111,10 +112,14 @@ interface Character<I : Interaction> : Interactable<I> {
     val name: String?
 }
 
+
+
 /**
  * An [Interactable] that's used as a non-playable character
  */
 interface NPC<I : Interaction> : Character<I>
+
+
 
 /**
  * An [Interactable] that's used as a game object

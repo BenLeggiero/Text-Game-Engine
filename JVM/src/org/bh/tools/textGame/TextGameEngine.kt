@@ -7,7 +7,7 @@ import org.bh.tools.textGame.basics.*
  * @since 2018-01-25
  */
 object TextGameEngine {
-    fun start(game: TextGame<*, *>, ui: TextGameUserInterface): Unit {
+    fun start(game: TextGame<*, *>, ui: TextGameUIElement): Unit {
 
     }
 }

@@ -1,10 +1,10 @@
 package org.bh.tools.textGame.interaction
 
-interface TextOutput {
-    fun textForOutput(kind: OutputKind): String
+interface TextDescribable {
+    fun textDescription(kind: DescriptionPresentation): String
 }
 
-enum class OutputKind {
+enum class DescriptionPresentation {
     /** The text will be printed to a console */
     printedToConsole,
 
