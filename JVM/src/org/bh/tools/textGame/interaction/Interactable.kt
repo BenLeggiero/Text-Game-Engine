@@ -2,6 +2,8 @@
 
 package org.bh.tools.textGame.interaction
 
+import org.bh.tools.base.math.geometry.*
+
 
 /**
  * Something with which you can interact in a text game
@@ -13,13 +15,13 @@ interface Interactable<InteractionBaseType : Interaction>
     : TextDescribable
 {
     /**
-     * Lists interactions for this [Interactable], filtered appropriately
+     * Lists interaction triggers for this [Interactable], filtered appropriately
      *
-     * @param filter The filter by which interactions are included or excluded
+     * @param filter The filter by which interaction triggers are included or excluded
      *
-     * @return All interactions appropriate for the given filter
+     * @return All interaction triggers appropriate for the given filter
      */
-    fun interactions(filter: InteractionFilter): List<InteractionBaseType>
+    fun interactionTriggers(filter: InteractionFilter): List<InteractionTrigger>
 
 
     /**
@@ -65,7 +67,7 @@ enum class InteractionFilter {
  */
 interface Interaction {
     /**
-     * That which triggers this interaction
+     * That which triggered this interaction
      */
     val trigger: InteractionTrigger
 }
@@ -90,6 +92,11 @@ sealed class InteractionTrigger {
      * Signifies that one of a predefined set of actions, like `walk north` vs `walk east`, triggers this interaction.
      */
     class enum<T: Enum<T>>(val enum: T): InteractionTrigger()
+
+    /**
+     * A set of coordinates, like some point on the screen, or a button in a grid
+     */
+    class coordinates<T: Number>(val point: Point<T>): InteractionTrigger()
 
     /**
      * An interaction that's triggered by something that I as the API designer didn't account for. Sorry!
