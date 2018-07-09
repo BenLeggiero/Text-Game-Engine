@@ -9,7 +9,7 @@ import org.bh.tools.textGame.interaction.*
 interface TextGameUiElement
     <InteractionType>
     : Interactable<InteractionType>
-    where InteractionType : Interaction
+    where InteractionType : InteractionEvent
 
 
 
@@ -20,7 +20,7 @@ interface TextGameUiElement
 interface RootTextGameUiElement
     <SharedInteractionType>
     : TextGameUiElement<SharedInteractionType>
-    where SharedInteractionType : Interaction {
+    where SharedInteractionType : InteractionEvent {
 
     /**
      * Clears any current state and loads the given game into this UI

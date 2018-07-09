@@ -2,6 +2,7 @@
 
 package org.bh.tools.textGame.interaction
 
+import TextGameEngine.Character
 import org.bh.tools.base.math.geometry.*
 
 
@@ -11,11 +12,12 @@ import org.bh.tools.base.math.geometry.*
  * @author Ben Leggiero
  * @since 2017-06-14
  */
-interface Interactable<InteractionBaseType : Interaction>
+interface Interactable<InteractionBaseType : InteractionEvent>
     : TextDescribable
 {
     /**
-     * Lists interaction triggers for this [Interactable], filtered appropriately
+     * Lists interaction triggers for this [Interactable], filtered appropriately.
+     * These may or may not be presented to the user.
      *
      * @param filter The filter by which interaction triggers are included or excluded
      *
@@ -25,7 +27,7 @@ interface Interactable<InteractionBaseType : Interaction>
 
 
     /**
-     * Conditionally interacts with this, using the given [Interaction]
+     * Conditionally interacts with this, using the given [InteractionEvent]
      *
      * @param interaction The Interaction that triggered this function
      *
@@ -38,11 +40,11 @@ interface Interactable<InteractionBaseType : Interaction>
 /**
  * A method by which interactions are filtered andor sorted
  */
-enum class InteractionFilter {
+sealed class InteractionFilter {
     /**
      * All possible interactions. These need not be sorted.
      */
-    all,
+    object all: InteractionFilter()
 
     /**
      * All interactions that make sense right now. All of these should appear with [all], but not all of those must
@@ -50,24 +52,26 @@ enum class InteractionFilter {
      *
      * These should be sorted such that the most likely one is first.
      */
-    currentlyAvailable,
+    object currentlyAvailable: InteractionFilter()
 
     /**
      * All interactions that are currently visibly presented to the player's (or any other) character. All of these
      * should appear in [currentlyAvailable], but not all of those need appear in this.
      *
      * These should be sorted in the way you intend them to be presented to the user.
+     *
+     * @param character The character in question. `null` signifies any character.
      */
-    visibleToCharacter
+    class visibleToCharacter(val character: Character?): InteractionFilter()
 }
 
 
 /**
- * Some potential interaction in a text game
+ * Some interaction event in a text game
  */
-interface Interaction {
+interface InteractionEvent {
     /**
-     * That which triggered this interaction
+     * That which triggered this interaction event
      */
     val trigger: InteractionTrigger
 }
@@ -108,27 +112,4 @@ sealed class InteractionTrigger {
 
 
 
-interface InteractionResult<InitialInteraction : Interaction> : TextDescribable
-
-
-
-/**
- * An [Interactable] that's used as a character
- */
-interface Character<I : Interaction> : Interactable<I> {
-    val name: String?
-}
-
-
-
-/**
- * An [Interactable] that's used as a non-playable character
- */
-interface NPC<I : Interaction> : Character<I>
-
-
-
-/**
- * An [Interactable] that's used as a game object
- */
-interface GameObject<I : Interaction> : Interactable<I>
+interface InteractionResult<InitialInteraction : InteractionEvent> : TextDescribable
