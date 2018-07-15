@@ -90,24 +90,24 @@ sealed class InteractionTrigger {
     /**
      * Signifies that a string matching a particular regex is required to trigger this interaction.
      */
-    class matchesRegex(val regex: Regex): InteractionTrigger()
+    data class matchesRegex(val regex: Regex): InteractionTrigger()
 
     /**
      * Signifies that one of a predefined set of actions, like `walk north` vs `walk east`, triggers this interaction.
      */
-    class enum<T: Enum<T>>(val enum: T): InteractionTrigger()
+    data class enum<T: Enum<T>>(val enum: T): InteractionTrigger()
 
     /**
      * A set of coordinates, like some point on the screen, or a button in a grid
      */
-    class coordinates<T: Number>(val point: Point<T>): InteractionTrigger()
+    data class coordinates<T: Number>(val point: Point<T>): InteractionTrigger()
 
     /**
      * An interaction that's triggered by something that I as the API designer didn't account for. Sorry!
      *
      * Be sure to let me know what I missed by filing an issue on GitHub (link in readme)
      */
-    class any<out T>(val value: T): InteractionTrigger()
+    data class any<out T>(val value: T): InteractionTrigger()
 }
 
 

@@ -16,9 +16,9 @@ typealias Character = GameObject
 
 
 
-fun GameObject.Companion.asCharacter(name: String): Character {
+fun GameObject.Companion.asCharacter(name: String, delegate: CharacterController.Delegate): Character {
     val nameProperty = NameProperty(name)
-    val characterController = CharacterController(nameProperty = nameProperty)
+    val characterController = CharacterController(nameProperty = nameProperty, delegate = delegate)
     return Character(properties = kotlin.collections.mutableListOf(
             nameProperty,
             characterController
@@ -28,7 +28,9 @@ fun GameObject.Companion.asCharacter(name: String): Character {
 
 
 fun Character.isCharacter() = properties.any { it is CharacterController }
-val Character.name get() = properties.firstMappedOrNull { it as? CharacterController }?.name
+val GameObject.name get() = properties
+        .firstMappedOrNull { it as? CharacterController }?.name
+        ?: properties.firstMappedOrNull { it as? NameProperty }?.name
 
 
 
